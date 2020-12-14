@@ -15,18 +15,17 @@ namespace SmartSchool.API.Controllers
   [ApiController]
   public class AlunoController : ControllerBase
   {
-    private readonly SmartContext _context;
-
-    public AlunoController(SmartContext context)
+    private readonly IRepository _repo;
+    public AlunoController(IRepository repo)
     {
-      this._context = context;
+      _repo = repo;
     }
 
     // GET: api/<AlunoController>
     [HttpGet]
     public IActionResult Get()
     {
-      return Ok(_context.Alunos);
+      return Ok(_repo.GetAllAlunos(true));
     }
 
     //Como existem duas rotas get iguais é necessário especificar o parâmetro de uma delas. Por padrão todas são string, então é necessário especificar a int
@@ -34,16 +33,7 @@ namespace SmartSchool.API.Controllers
     [HttpGet("{id:int}")]
     public IActionResult Get(int id)
     {
-      var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
-      if (aluno == null) return BadRequest("Aluno não encontrado");
-      return Ok(aluno);
-    }
-
-    // GET api/<AlunoController>/nome
-    [HttpGet("{name}")]
-    public IActionResult Get(string name)
-    {
-      var aluno = _context.Alunos.FirstOrDefault(a => a.Nome == name);
+      var aluno = _repo.GetAlunoById(id);
       if (aluno == null) return BadRequest("Aluno não encontrado");
       return Ok(aluno);
     }
@@ -51,38 +41,25 @@ namespace SmartSchool.API.Controllers
     //O nome sem as chaves faz com que sejam recebidos via queryparams. Não é obrigatório passar todo parametros, mas precisa validar se foram passados para não dar exception no código, porque podem vir vazios
     // GET api/<AlunoController>/filter?name=Ricardo&lastname=Colzani
     [HttpGet("filter")]
-    public IActionResult GetById(string name, string lastname)
+    public IActionResult GetByName(string name, string lastname)
     {
-      Aluno aluno;
-      name = name.ToLower();
-      lastname = lastname.ToLower();
-
-      if (string.IsNullOrEmpty(name) == false && string.IsNullOrEmpty(lastname) == false)
-      {
-        aluno = _context.Alunos.FirstOrDefault(a => a.Nome.ToLower() == name && a.Sobrenome.ToLower() == lastname);
-      }
-      else if (string.IsNullOrEmpty(name) == false)
-      {
-        aluno = _context.Alunos.FirstOrDefault(a => a.Nome.ToLower() == name);
-      }
-      else if (string.IsNullOrEmpty(lastname) == false)
-      {
-        aluno = _context.Alunos.FirstOrDefault(a => a.Sobrenome.ToLower() == lastname);
-      }
-      else
+      if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(lastname))
       {
         return BadRequest("Parâmetros incorretos");
       }
-      if (aluno == null) return BadRequest("Aluno não encontrado");
-      return Ok(aluno);
+
+      var alunos = _repo.GetAlunoByName(name, lastname);
+
+      if (alunos.Count() <= 0) return BadRequest("Aluno não encontrado");
+      return Ok(alunos);
     }
 
     // POST api/<AlunoController>
     [HttpPost]
     public IActionResult Post(Aluno aluno)
     {
-      _context.Add(aluno);
-      _context.SaveChanges();
+      _repo.Add(aluno);
+      _repo.SaveChanges();
       return Ok(aluno);
     }
 
@@ -90,11 +67,11 @@ namespace SmartSchool.API.Controllers
     [HttpPut()]
     public IActionResult Put(Aluno aluno)
     {
-      var alunoExistente = _context.Alunos.AsNoTracking().FirstOrDefault(a => a.Id == aluno.Id);
+      var alunoExistente = _repo.GetAlunoById(aluno.Id);
       if (alunoExistente == null) return BadRequest("Aluno not found");
 
-      _context.Update(aluno);
-      _context.SaveChanges();
+      _repo.Update(aluno);
+      _repo.SaveChanges();
       return Ok(aluno);
     }
 
@@ -102,12 +79,12 @@ namespace SmartSchool.API.Controllers
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-      var alunoExistente = _context.Alunos.AsNoTracking().FirstOrDefault(a => a.Id == id);
+      var alunoExistente = _repo.GetAlunoById(id);
       if (alunoExistente == null) return BadRequest("Aluno not found");
 
-      _context.Remove(alunoExistente);
-      _context.SaveChanges();
-      return Ok("deu boas");
+      _repo.Remove(alunoExistente);
+      _repo.SaveChanges();
+      return Ok(_repo.GetAllAlunos(true));
     }
   }
 }

@@ -29,6 +29,12 @@ namespace SmartSchool.API
       services.AddDbContext<SmartContext>(
           context => context.UseSqlite(Configuration.GetConnectionString("Default"))
       );
+      services.AddScoped<IRepository, Repository>();
+
+      //Necessário quando você tem um Loop em um Json. Aluno dentro de discpli e disciplina dentro de aluno, por exemplo.
+      services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
       services.AddControllers();
     }
 

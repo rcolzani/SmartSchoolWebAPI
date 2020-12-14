@@ -15,24 +15,24 @@ namespace SmartSchool.API.Controllers
   [ApiController]
   public class ProfessorController : ControllerBase
   {
-    private readonly SmartContext _context;
+    private readonly IRepository _repo;
 
-    public ProfessorController(SmartContext context)
+    public ProfessorController(IRepository repo)
     {
-      _context = context;
+      _repo = repo;
     }
     // GET: api/<ProfessorController>
     [HttpGet]
     public IActionResult Get()
     {
-      return Ok(_context.Professores);
+      return Ok(_repo.GetAllProfessores(true));
     }
 
     // GET api/<ProfessorController>/5
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
-      var professor = _context.Professores.FirstOrDefault(a => a.Id == id);
+      var professor = _repo.GetProfessorById(id);
       return Ok(professor);
     }
 
@@ -40,8 +40,8 @@ namespace SmartSchool.API.Controllers
     [HttpPost]
     public IActionResult Post(Professor professor)
     {
-      _context.Add(professor);
-      _context.SaveChanges();
+      _repo.Add(professor);
+      _repo.SaveChanges();
       return Ok(professor);
     }
 
@@ -49,11 +49,11 @@ namespace SmartSchool.API.Controllers
     [HttpPut()]
     public IActionResult Put(Professor professor)
     {
-      var professorExistente = _context.Professores.AsNoTracking().FirstOrDefault(p => p.Id == professor.Id);
+      var professorExistente = _repo.GetProfessorById(professor.Id);
       if (professorExistente == null) return BadRequest("Professor não encontrado");
 
-      _context.Professores.Update(professor);
-      _context.SaveChanges();
+      _repo.Update(professor);
+      _repo.SaveChanges();
       return Ok(professor);
     }
 
@@ -61,11 +61,11 @@ namespace SmartSchool.API.Controllers
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-      var professor = _context.Professores.FirstOrDefault(p => p.Id == id);
+      var professor = _repo.GetProfessorById(id);
       if (professor == null) return BadRequest("Professor não encontrado");
 
-      _context.Professores.Remove(professor);
-      _context.SaveChanges();
+      _repo.Remove(professor);
+      _repo.SaveChanges();
       return Ok("Professor removido");
     }
   }
