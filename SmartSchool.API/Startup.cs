@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,12 +30,18 @@ namespace SmartSchool.API
       services.AddDbContext<SmartContext>(
           context => context.UseSqlite(Configuration.GetConnectionString("Default"))
       );
+
+      //Injeção de dependencia que pode ser recebido como parâmetro na controller
       services.AddScoped<IRepository, Repository>();
+
+      //Mapeamento entre DTO e Models via reflection
+      //Com esta linha é feita uma injeção de dependência que é recebido pela controller
+      services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
       //Necessário quando você tem um Loop em um Json. Aluno dentro de discpli e disciplina dentro de aluno, por exemplo.
       services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        );
       services.AddControllers();
     }
 

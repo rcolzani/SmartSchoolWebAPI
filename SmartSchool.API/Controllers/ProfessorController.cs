@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.API.Data;
+using SmartSchool.API.Dtos;
 using SmartSchool.API.Models;
 using System;
 using System.Collections.Generic;
@@ -16,10 +18,11 @@ namespace SmartSchool.API.Controllers
   public class ProfessorController : ControllerBase
   {
     private readonly IRepository _repo;
-
-    public ProfessorController(IRepository repo)
+    private readonly IMapper _mapper;
+    public ProfessorController(IRepository repo, IMapper mapper)
     {
       _repo = repo;
+      _mapper = mapper;
     }
     // GET: api/<ProfessorController>
     [HttpGet]
@@ -38,23 +41,26 @@ namespace SmartSchool.API.Controllers
 
     // POST api/<ProfessorController>
     [HttpPost]
-    public IActionResult Post(Professor professor)
+    public IActionResult Post(ProfessorRegistrarDto professorRegistrarDto)
     {
+      var professor = _mapper.Map<Professor>(professorRegistrarDto);
       _repo.Add(professor);
       _repo.SaveChanges();
-      return Ok(professor);
+      return Ok(_mapper.Map<ProfessorDto>(professor));
     }
 
     // PUT api/<ProfessorController>/5
-    [HttpPut()]
-    public IActionResult Put(Professor professor)
+    [HttpPut("id")]
+    public IActionResult Put(int id, ProfessorRegistrarDto professorRegistrarDto)
     {
-      var professorExistente = _repo.GetProfessorById(professor.Id);
+      var professorExistente = _repo.GetProfessorById(id);
       if (professorExistente == null) return BadRequest("Professor não encontrado");
 
+      var professor = _mapper.Map<Professor>(professorRegistrarDto);
+      professor.Id = id;
       _repo.Update(professor);
       _repo.SaveChanges();
-      return Ok(professor);
+      return Ok(_mapper.Map<ProfessorDto>(professor));
     }
 
     // DELETE api/<ProfessorController>/5
