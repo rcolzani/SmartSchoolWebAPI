@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.API.Data;
-using SmartSchool.API.Dtos;
+using SmartSchool.API.V1.Dtos;
 using SmartSchool.API.Models;
 using System;
 using System.Collections.Generic;
@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace SmartSchool.API.Controllers
+namespace SmartSchool.API.V1.Controllers
 {
-  [Route("api/[controller]")]
   [ApiController]
+  [ApiVersion("1.0")]
+  [Route("api/v{version:apiVersion}/[controller]")]
   public class ProfessorController : ControllerBase
   {
     private readonly IRepository _repo;
@@ -24,6 +25,10 @@ namespace SmartSchool.API.Controllers
       _repo = repo;
       _mapper = mapper;
     }
+
+    /// <summary>
+    /// Método responsável por retornar todos os professores
+    /// </summary>
     // GET: api/<ProfessorController>
     [HttpGet]
     public IActionResult Get()
@@ -31,14 +36,20 @@ namespace SmartSchool.API.Controllers
       return Ok(_repo.GetAllProfessores(true));
     }
 
+    /// <summary>
+    /// Método responsável por retornar um professor a partir do ID
+    /// </summary>
     // GET api/<ProfessorController>/5
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
       var professor = _repo.GetProfessorById(id);
-      return Ok(professor);
+      return Ok(_mapper.Map<ProfessorDto>(professor));
     }
 
+    /// <summary>
+    /// Método responsável por receber os dados do professor e gravar no banco de dados
+    /// </summary>
     // POST api/<ProfessorController>
     [HttpPost]
     public IActionResult Post(ProfessorRegistrarDto professorRegistrarDto)
@@ -49,6 +60,9 @@ namespace SmartSchool.API.Controllers
       return Ok(_mapper.Map<ProfessorDto>(professor));
     }
 
+    /// <summary>
+    /// Método responsável por atualizar os dados do professor 
+    /// </summary>
     // PUT api/<ProfessorController>/5
     [HttpPut("id")]
     public IActionResult Put(int id, ProfessorRegistrarDto professorRegistrarDto)
@@ -63,6 +77,9 @@ namespace SmartSchool.API.Controllers
       return Ok(_mapper.Map<ProfessorDto>(professor));
     }
 
+    /// <summary>
+    /// Método responsável por deletar o professor a partir de um ID
+    /// </summary>
     // DELETE api/<ProfessorController>/5
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
