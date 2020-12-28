@@ -18,7 +18,7 @@
 - Docker e docker-compose
 
 ## 📋 Conceitos e observações
-- Repository e IRepository: melhor encapsulamento do contexto. As classes tem acesso ao repository e o repository tem acesso ao contexto.
+- Repository e IRepository: melhor encapsulamento do contexto. As controllers tem acesso ao repository e o repository tem acesso ao contexto.
 
 - AddScoped para injetar o repository na Controller: Scoped faz o .net Core criar uma intância a cada requisição e utiliza esta instância para todos objetos da requisição (escopo). Cria objetos diferentes para requisições diferentes.
 
@@ -32,4 +32,5 @@
 
 - Docker-compose: arquivo as configurações para criação dos containers, imagens, networks, volumes e o que mais for necessário para a criação automática dos containers.
 
-- Autenticação com JWT: Não faz parte do curso, mas achei importante incluir no projeto. 
+## ➕ Recursos incluídos que não fazem parte do curso
+- Autenticação com JWT: Todos os métodos da API V2 exigem o Bearer token nas requisições.
