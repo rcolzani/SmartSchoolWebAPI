@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SmartSchool.API.Migrations
 {
-    public partial class initMySql : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,6 +58,21 @@ namespace SmartSchool.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Professores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Username = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    Role = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,13 +169,13 @@ namespace SmartSchool.API.Migrations
                 columns: new[] { "Id", "Ativo", "DataFim", "DataIni", "DataNasc", "Matricula", "Nome", "Sobrenome", "Telefone" },
                 values: new object[,]
                 {
-                    { 1, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 484, DateTimeKind.Local).AddTicks(7816), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Marta", "Kent", "33225555" },
-                    { 2, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(900), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Paula", "Isabela", "3354288" },
-                    { 3, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(993), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Laura", "Antonia", "55668899" },
-                    { 4, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(1031), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, "Luiza", "Maria", "6565659" },
-                    { 5, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(1046), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, "Lucas", "Machado", "565685415" },
-                    { 6, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(1064), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, "Pedro", "Alvares", "456454545" },
-                    { 7, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(1074), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 7, "Paulo", "José", "9874512" }
+                    { 1, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 98, DateTimeKind.Local).AddTicks(5914), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Marta", "Kent", "33225555" },
+                    { 2, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 98, DateTimeKind.Local).AddTicks(9173), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Paula", "Isabela", "3354288" },
+                    { 3, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 98, DateTimeKind.Local).AddTicks(9283), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Laura", "Antonia", "55668899" },
+                    { 4, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 98, DateTimeKind.Local).AddTicks(9295), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, "Luiza", "Maria", "6565659" },
+                    { 5, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 98, DateTimeKind.Local).AddTicks(9303), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, "Lucas", "Machado", "565685415" },
+                    { 6, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 98, DateTimeKind.Local).AddTicks(9320), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, "Pedro", "Alvares", "456454545" },
+                    { 7, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 98, DateTimeKind.Local).AddTicks(9328), new DateTime(2005, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 7, "Paulo", "José", "9874512" }
                 });
 
             migrationBuilder.InsertData(
@@ -168,9 +183,9 @@ namespace SmartSchool.API.Migrations
                 columns: new[] { "Id", "Nome" },
                 values: new object[,]
                 {
-                    { 1, "Tecnologia da Informação" },
+                    { 3, "Ciência da Computação" },
                     { 2, "Sistemas de Informação" },
-                    { 3, "Ciência da Computação" }
+                    { 1, "Tecnologia da Informação" }
                 });
 
             migrationBuilder.InsertData(
@@ -178,11 +193,20 @@ namespace SmartSchool.API.Migrations
                 columns: new[] { "Id", "Ativo", "DataFim", "DataIni", "Nome", "Registro", "Sobrenome", "Telefone" },
                 values: new object[,]
                 {
-                    { 1, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 478, DateTimeKind.Local).AddTicks(2421), "Lauro", 1, "Oliveira", null },
-                    { 2, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 479, DateTimeKind.Local).AddTicks(5537), "Roberto", 2, "Soares", null },
-                    { 3, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 479, DateTimeKind.Local).AddTicks(5618), "Ronaldo", 3, "Marconi", null },
-                    { 4, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 479, DateTimeKind.Local).AddTicks(5624), "Rodrigo", 4, "Carvalho", null },
-                    { 5, true, null, new DateTime(2020, 12, 23, 10, 16, 5, 479, DateTimeKind.Local).AddTicks(5625), "Alexandre", 5, "Montanha", null }
+                    { 1, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 94, DateTimeKind.Local).AddTicks(2493), "Lauro", 1, "Oliveira", null },
+                    { 2, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 95, DateTimeKind.Local).AddTicks(9956), "Roberto", 2, "Soares", null },
+                    { 3, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 96, DateTimeKind.Local).AddTicks(39), "Ronaldo", 3, "Marconi", null },
+                    { 4, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 96, DateTimeKind.Local).AddTicks(43), "Rodrigo", 4, "Carvalho", null },
+                    { 5, true, null, new DateTime(2020, 12, 28, 9, 36, 51, 96, DateTimeKind.Local).AddTicks(45), "Alexandre", 5, "Montanha", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Password", "Role", "Username" },
+                values: new object[,]
+                {
+                    { 1, "ricardo", "manager", "Ricardo" },
+                    { 2, "raissa", "employee", "Raissa" }
                 });
 
             migrationBuilder.InsertData(
@@ -207,29 +231,29 @@ namespace SmartSchool.API.Migrations
                 columns: new[] { "AlunoId", "DisciplinaId", "DataFim", "DataIni", "Nota" },
                 values: new object[,]
                 {
-                    { 2, 1, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4165), null },
-                    { 4, 5, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4187), null },
-                    { 2, 5, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4174), null },
-                    { 1, 5, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4162), null },
-                    { 7, 4, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4206), null },
-                    { 6, 4, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4199), null },
-                    { 5, 4, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4189), null },
-                    { 4, 4, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4185), null },
-                    { 1, 4, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4111), null },
-                    { 7, 3, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4205), null },
-                    { 5, 5, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4191), null },
-                    { 6, 3, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4196), null },
-                    { 7, 2, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4203), null },
-                    { 6, 2, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4194), null },
-                    { 3, 2, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4178), null },
-                    { 2, 2, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4167), null },
-                    { 1, 2, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(3179), null },
-                    { 7, 1, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4201), null },
-                    { 6, 1, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4192), null },
-                    { 4, 1, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4183), null },
-                    { 3, 1, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4176), null },
-                    { 3, 3, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4180), null },
-                    { 7, 5, null, new DateTime(2020, 12, 23, 10, 16, 5, 485, DateTimeKind.Local).AddTicks(4208), null }
+                    { 2, 1, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2283), null },
+                    { 4, 5, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2304), null },
+                    { 2, 5, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2291), null },
+                    { 1, 5, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2281), null },
+                    { 7, 4, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2324), null },
+                    { 6, 4, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2317), null },
+                    { 5, 4, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2306), null },
+                    { 4, 4, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2303), null },
+                    { 1, 4, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2248), null },
+                    { 7, 3, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2322), null },
+                    { 5, 5, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2308), null },
+                    { 6, 3, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2313), null },
+                    { 7, 2, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2320), null },
+                    { 6, 2, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2312), null },
+                    { 3, 2, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2295), null },
+                    { 2, 2, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2285), null },
+                    { 1, 2, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(1330), null },
+                    { 7, 1, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2319), null },
+                    { 6, 1, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2310), null },
+                    { 4, 1, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2301), null },
+                    { 3, 1, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2293), null },
+                    { 3, 3, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2297), null },
+                    { 7, 5, null, new DateTime(2020, 12, 28, 9, 36, 51, 99, DateTimeKind.Local).AddTicks(2326), null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -265,6 +289,9 @@ namespace SmartSchool.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "AlunosDisciplinas");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Alunos");

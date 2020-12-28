@@ -64,6 +64,16 @@
             Método responsável por deletar o professor a partir de um ID
             </summary>
         </member>
+        <member name="M:SmartSchool.API.V1.Controllers.AccountController.#ctor(SmartSchool.API.Data.IRepository,AutoMapper.IMapper)">
+            <summary>
+            Controller de account
+            </summary>
+        </member>
+        <member name="M:SmartSchool.API.V1.Controllers.AccountController.Authenticate(SmartSchool.API.V2.Dtos.UserDto)">
+            <summary>
+            Método responsável por receber o POST e fazer login
+            </summary>
+        </member>
         <member name="P:SmartSchool.API.V1.Dtos.AlunoDto.Idade">
             <summary>
             Será retornada a idade se baseando na data de nascimento e na data atual
@@ -77,6 +87,11 @@
         <member name="P:SmartSchool.API.V1.Dtos.AlunoRegistrarDto.Matricula">
             <summary>
             Matrícula obtida junto a escola
+            </summary>
+        </member>
+        <member name="T:SmartSchool.API.V2.Controllers.AlunoController">
+            <summary>
+            Controller de alunos
             </summary>
         </member>
         <member name="M:SmartSchool.API.V2.Controllers.AlunoController.#ctor(SmartSchool.API.Data.IRepository,AutoMapper.IMapper)">
