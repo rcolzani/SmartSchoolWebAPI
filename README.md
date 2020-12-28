@@ -15,6 +15,7 @@
 - Asp.NET Core 3.1
 - Entity Framework Core 3.1
 - Swagger
+- Docker e docker-compose
 
 ## 📋 Conceitos e observações
 - Repository e IRepository: melhor encapsulamento do contexto. As classes tem acesso ao repository e o repository tem acesso ao contexto.
@@ -28,3 +29,5 @@
 - Extensions: extender classes. Pode estender uma classe DateTime, por exemplo.
 
 - Swagger: documentação da API. Métodos, parâmetros, teste das rotas, etc. É possível fazer a documentação por versão.
+
+- Docker-compose: arquivo as configurações para criação dos containers, imagens, networks, volumes e o que mais for necessário para a criação automática dos containers.
