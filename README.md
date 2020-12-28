@@ -31,3 +31,5 @@
 - Swagger: documentação da API. Métodos, parâmetros, teste das rotas, etc. É possível fazer a documentação por versão.
 
 - Docker-compose: arquivo as configurações para criação dos containers, imagens, networks, volumes e o que mais for necessário para a criação automática dos containers.
+
+- Autenticação com JWT: Não faz parte do curso, mas achei importante incluir no projeto. 
